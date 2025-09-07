@@ -17,6 +17,7 @@ class Technology(models.Model):
     QT = 'Qt'
     API_DEVELOPMENT = 'API Development'
     GRAPHQL = 'GraphQL'
+    TRANSLATE = 'translate'
     
 
     TECH = {
@@ -24,7 +25,8 @@ class Technology(models.Model):
         (VUEJS, 'VueJS'), (ANGULARJS, 'AngularJS'), (POSTGRESQL, 'Postgresql'),
         (CPP, 'C - CPP'), (RUST, 'Rust'), (REDIS, 'Redis'), (LINUX, 'Linux'),
         (SOCKET_PROGRAMMING, 'Socket Programming'), (BASHSCRIPT, 'Bash Scripting'),
-        (QT, 'Qt'), (API_DEVELOPMENT, 'API Development'),(GRAPHQL, 'GraphQL')
+        (QT, 'Qt'), (API_DEVELOPMENT, 'API Development'),(GRAPHQL, 'GraphQL'),
+        (TRANSLATE, 'translate')
         
     }
     
