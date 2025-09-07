@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-
+from django.contrib import messages
+from django.db.models import Q
 from django.template.defaultfilters import slugify
 
 from blog.models import Article, Author, Tags, SubTitle
@@ -80,3 +81,17 @@ def article_detail(request, pk=None):
         'tags': tags
     }
     return render(request, 'blog/article_detail.html', data)
+
+
+def SearchByTag(request, tt):
+    tt = tt.replace('-', ' ')
+    articles = Article.objects.filter(Q(tag__title__icontains=tt, published=True)).order_by('-created_at')
+    if not articles:
+        messages.warning(request, ("Sorry!! somethig wrong ..."))
+        return redirect('blog:article_list')
+    else:
+        return render(request, 'blog/bytag.html', {
+            'developer': developer,
+            'articles': articles,
+            'tag': tt,
+        })
