@@ -1,5 +1,42 @@
 from django.db import models
 
+
+class Technology(models.Model):
+    PYTHON = 'Python'
+    JAVASCRIPT = 'JavaScript'
+    DJANGO = 'Django'
+    VUEJS = 'VueJS'
+    ANGULARJS = 'AngularJS'
+    POSTGRESQL = 'Postgresql'
+    CPP = 'C - CPP'
+    RUST = 'Rust'
+    REDIS = 'Redis'
+    LINUX = 'Linux'
+    SOCKET_PROGRAMMING = 'Socket Programming'
+    BASHSCRIPT = 'Bash Scripting'
+    QT = 'Qt'
+    API_DEVELOPMENT = 'API Development'
+    GRAPHQL = 'GraphQL'
+    
+
+    TECH = {
+        (PYTHON, 'Python'), (JAVASCRIPT, 'JavaScript'), (DJANGO, 'Django'),
+        (VUEJS, 'VueJS'), (ANGULARJS, 'AngularJS'), (POSTGRESQL, 'Postgresql'),
+        (CPP, 'C - CPP'), (RUST, 'Rust'), (REDIS, 'Redis'), (LINUX, 'Linux'),
+        (SOCKET_PROGRAMMING, 'Socket Programming'), (BASHSCRIPT, 'Bash Scripting'),
+        (QT, 'Qt'), (API_DEVELOPMENT, 'API Development'),(GRAPHQL, 'GraphQL')
+        
+    }
+    
+    
+    title = models.CharField(choices=TECH, blank=True, null=True)
+    description = models.CharField(max_length=256, blank=True, null=True)
+    
+    def __str__(self):
+        return self.title
+
+
+
 class Developer(models.Model):
 
     BACHELOR = 'Bachelor'
@@ -16,7 +53,7 @@ class Developer(models.Model):
     }
     
     WORK_FIELD = {
-        (BACKEND_DEVELOPER, 'backend developer'),
+        (BACKEND_DEVELOPER, 'Backend Developer'),
         (SOFTWARE_ENGINEER, 'software engineer'),
         (TECH_GUY, 'tech guy')
     }
@@ -30,6 +67,7 @@ class Developer(models.Model):
     email = models.EmailField(blank=True, null=True)
     age = models.PositiveSmallIntegerField(blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
+    skills = models.ManyToManyField(Technology, blank=True)
     github_link = models.CharField(max_length=256)
     lnkedin_link = models.CharField(max_length=256)
     instagram_link = models.CharField(max_length=256)
@@ -98,14 +136,6 @@ class Resume(models.Model):
     
     def academy_address(self):
         return f"{self.academy_country}, {self.academy_state}, {self.academy_city}"
-
-
-
-class Technology(models.Model):
-    title = models.CharField(max_length=64)
-    
-    def __str__(self):
-        return self.title
     
 
 class Projects(models.Model):
