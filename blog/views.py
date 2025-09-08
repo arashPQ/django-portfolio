@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Q
 from django.template.defaultfilters import slugify
+from django.contrib.auth.decorators import user_passes_test
 
 from blog.models import Article, Author, Tags, SubTitle
 from blog.forms import ArticleForm
@@ -10,9 +11,16 @@ from developer.models import Developer
 developer = Developer.objects.get(username='arashPQ')
 
 
+def superuser_required(func):
+    decorator = user_passes_test(lambda u:u.is_superuser)
+    return decorator(func)
+
+
 def blog(request):
     return redirect('blog:article_list')
 
+
+@superuser_required
 def create_article(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)

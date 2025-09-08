@@ -141,10 +141,10 @@ class Resume(models.Model):
     
 
 class Projects(models.Model):
-    CLI_PROJECT = 1
-    SYSTEM_BACKEND = 2
-    WEB_BACKEND = 3
-    WEB_DESIGN = 4
+    CLI_PROJECT = 'cli projects'
+    SYSTEM_BACKEND = 'system projects'
+    WEB_BACKEND = 'web back-end'
+    WEB_DESIGN = 'web front-end'
 
     PROJECT_TYPE = {
         (CLI_PROJECT, 'cli projects'),
@@ -153,8 +153,26 @@ class Projects(models.Model):
         (WEB_DESIGN, 'web front-end'),
     }
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE)
-    type = models.IntegerField(choices=PROJECT_TYPE, default=3)
+    type = models.CharField(choices=PROJECT_TYPE)
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=512)
+    link = models.CharField(blank=True, null=True)
+    modified_at = models.DateTimeField(blank=True, null=True)
     
+    def __str__(self):
+        return f"{self.title} developed by {self.developer}"
+    
+    
+    def first_image(self):
+        return self.images.first()
+    
+
+
+
+class ProjectImage(models.Model):
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='projects_images/')
+    
+    def __str__(self):
+        return f"image for {self.project.title}"
     

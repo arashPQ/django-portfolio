@@ -23,16 +23,17 @@ class Author(models.Model):
 
 
 class Tags(models.Model):
-    title = models.CharField(max_length=16)
+    title = models.CharField(max_length=64)
     slug = models.SlugField(unique=True, default=title)
-    description = models.CharField(max_length=128)
+    description = models.CharField(max_length=128, null=True)
 
     def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super(Tags, self).save(*args, **kwargs)
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class Article(models.Model):
