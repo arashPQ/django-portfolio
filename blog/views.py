@@ -99,6 +99,9 @@ def article_detail(request, pk=None):
 def SearchByTag(request, tt):
     tt = tt.replace('-', ' ')
     articles = Article.objects.filter(Q(tag__title__icontains=tt, published=True)).order_by('-created_at')
+    paginator = Paginator(articles, 5)
+    page_number = request.GET.get('page')
+    page_objects = paginator.get_page(page_number)
     if not articles:
         messages.warning(request, ("Sorry!! somethig wrong ..."))
         return redirect('blog:article_list')
@@ -106,5 +109,6 @@ def SearchByTag(request, tt):
         return render(request, 'blog/bytag.html', {
             'developer': developer,
             'articles': articles,
+            'page_objects': page_objects,
             'tag': tt,
         })

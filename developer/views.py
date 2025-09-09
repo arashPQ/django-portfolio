@@ -1,15 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.core.paginator import Paginator
+
 from developer.models import Developer, Resume, Projects, ProjectImage
 
-
-def projects(request):
-    redirect('developer:index')
-
+developer = Developer.objects.get(username='arashPQ')
 
 def portfolio(request):
-    developer = Developer.objects.get(username='arashPQ')
+    
     resume = Resume.objects.filter(developer=developer)
-    projects = Projects.objects.filter(developer=developer)
+    projects = Projects.objects.filter(developer=developer).order_by('-modified_at')[:3]
     data = {
         'developer': developer,
         'experiences': resume.filter(type='work'),
@@ -20,6 +19,20 @@ def portfolio(request):
     }
     
     return render(request, 'developer/index.html', data)
+
+
+def projects(request):
+    projects = Projects.objects.filter(developer=developer).order_by('-modified_at')
+    paginator = Paginator(projects, 6)
+    page_number = request.GET.get('page')
+    page_objects = paginator.get_page(page_number)
+    data = {
+        'projects': projects,
+        'developer': developer,
+        'page_objects': page_objects,
+    }
+    return render(request, 'developer/projects.html', data)
+
 
 
 def project_detail(request, pk=None):
