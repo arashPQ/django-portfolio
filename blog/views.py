@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.template.defaultfilters import slugify
 from django.contrib.auth.decorators import user_passes_test
+from django.core.paginator import Paginator
 
 from blog.models import Article, Author, Tags, SubTitle
 from blog.forms import ArticleForm
@@ -71,9 +72,13 @@ def create_article(request):
 
 def article_list(request):
     articles = Article.objects.filter(published=True).order_by('-created_at')
+    paginator = Paginator(articles, 5)
+    page_number = request.GET.get('page')
+    page_objects = paginator.get_page(page_number)
     data = {
         'articles': articles,
         'developer': developer,
+        'page_objects': page_objects,
     }
     return render(request, 'blog/index.html', data)
 
