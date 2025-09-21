@@ -8,14 +8,15 @@ developer = Developer.objects.get(username='arashPQ')
 def portfolio(request):
     
     resume = Resume.objects.filter(developer=developer)
-    projects = Projects.objects.filter(developer=developer).order_by('-modified_at')[:3]
+    OS_projects = Projects.objects.filter(developer=developer)
+    allprojects = Projects.objects.filter(developer=developer).order_by('-modified_at')[:3]
     data = {
         'developer': developer,
         'experiences': resume.filter(type='work'),
         'educations': resume.filter(type='education'),
-        'projects': resume.filter(type='open-source projects'),
+        'os_projects': OS_projects.filter(type='open source'),
         'skills': developer.skills.all(),
-        'projects': projects,
+        'projects': allprojects,
     }
     
     return render(request, 'developer/index.html', data)

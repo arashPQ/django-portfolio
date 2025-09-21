@@ -145,12 +145,14 @@ class Projects(models.Model):
     SYSTEM_BACKEND = 'system projects'
     WEB_BACKEND = 'web back-end'
     WEB_DESIGN = 'web front-end'
+    OPEN_SOURCE = 'open source'
 
     PROJECT_TYPE = {
         (CLI_PROJECT, 'cli projects'),
         (SYSTEM_BACKEND, 'system projects'),
         (WEB_BACKEND, 'web back-end'),
         (WEB_DESIGN, 'web front-end'),
+        (OPEN_SOURCE, 'open source')
     }
     developer = models.ForeignKey(Developer, on_delete=models.CASCADE)
     type = models.CharField(choices=PROJECT_TYPE)
