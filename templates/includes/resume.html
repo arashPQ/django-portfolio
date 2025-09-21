@@ -1,0 +1,80 @@
+{% load static %}
+
+<section id="resume" class="resume section">
+	<!-- Section Title -->
+	<div class="container section-title" data-aos="fade-up">
+	  <h2>Resume</h2>
+	  <p>Here you can see my work and educational experience. Of course, this is dummy information for testing :))</p>
+	</div>
+	<!-- End Section Title -->
+
+	<div class="container">
+	  <div class="row">
+		<div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+		  <h3 class="resume-title">last project</h3>
+
+		  <div class="resume-item pb-0">
+		  	{% for project in os_projects %}
+				<h4>{{ project.title }}</h4>
+				<p>
+				  <em>{{ project.description | truncatewords:15 }}</em>
+				</p>
+				<ul>
+				  <li>
+					<a href="{% url 'developer:project_detail' project.id %}" title="More Details" class="details-link">
+						<i class="bi bi-link-45deg"></i>
+						more info
+					</a>
+				  </li>
+				</ul>
+		  	{% endfor %}
+		  </div>
+
+		  <h3 class="resume-title">Education</h3>
+		  {% for edu in educations %}
+
+		  	<div class="resume-item">
+				<h4>{{ edu.position }}</h4>
+				<h4>in {{ edu.academy }}</h4>
+				{% if edu.ended_at == None %}
+					<h5>{{ edu.started_at|date:"Y" }} - Present</h5>
+				{% else %}
+					<h5>{{ edu.started_at }} - {{ edu.ended_at }}</h5>
+				{% endif %}
+				<ul>
+				  <li>{{ edu.academy_address }}</li>
+				  <li>{{ edu.academy_phone }}</li>
+				  <li>{{ edu.academy_email }}</li>
+				</ul>
+				<p>{{ edu.description }}</p>
+		  	</div>
+		  {% endfor %}
+		  <!-- Edn Resume Item -->
+		</div>
+
+		<div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+		  <h3 class="resume-title">Professional Experience</h3>
+		  {% for work in experiences %}
+		  	<div class="resume-item">
+				<h4>{{ work.position }}</h4>
+
+				{% if work.ended_at == None %}
+					<h5>{{ work.started_at|date:"Y" }} - Present</h5>
+				{% else %}
+					<h5>{{ work.started_at }} - {{ work.ended_at }}</h5>
+				{% endif %}
+
+				<p>{{ work.description }}</p>
+				<p>
+				  <em>{{ work.comapny_address }}</em>
+				</p>
+				<ul>
+				  <li>{{ work.company_phone }}</li>
+				  <li>{{ work.company_email }}</li>
+				</ul>
+			</div>
+			{% endfor %}
+		</div>
+	  </div>
+	</div>
+</section>

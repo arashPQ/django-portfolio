@@ -1,0 +1,31 @@
+{% load static %}
+<section id="skills" class="portfolio section light-background">
+	<!-- Section Title -->
+	<div class="container section-title" data-aos="fade-up">
+	  <h2>Skills</h2>
+	  <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+	</div>
+	<!-- End Section Title -->
+
+	<div class="container">
+	  <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+		<div class="row gy-1 isotope-container" data-aos="fade-up" data-aos-delay="200">
+		  
+		  {% for skill in skills %}
+		  	<div class="col-lg-3 col-md-3 portfolio-item isotope-item filter-product">
+				<a href="#">
+					<div style="text-align: center; padding: 1rem;" class="portfolio-content h-80">
+					  <h3>{{ skill.title }}</h3>
+					  <div class="portfolio-info">
+						<p>{{ skill.description }}</p>
+					  </div>
+					</div>
+				</a>
+		  	</div>
+		  {% endfor %}
+		</div>
+		<!-- End Portfolio Container -->
+	  </div>
+	</div>
+  </section>

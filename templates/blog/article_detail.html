@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    {{ article.title }}
+{% endblock title %}
+    
+
+{% block content %}
+
+
+<section id="blog" class="bg-light py-5">
+    <div class="container">
+        <div class="row g-4 mb-5">
+            <!-- بخش اصلی (عنوان، توضیحات، تگ‌ها) -->
+            <div class="col-12 col-lg-6">
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <h2 id="article-text" style="color: #149ddd;" class="h3 fw-bold mb-3">
+                        {{ article.title }}
+                    </h2>
+                    
+                    <p id="article-text" class="px-3 text-muted mb-4">
+                        {{ article.description }}
+                    </p>
+                    
+                    <!-- تگ‌ها -->
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        {% for tag in article.tag.all %}
+                            <a href="{% url 'blog:search_by_tag' tag.title %}" 
+                               class="badge bg-primary text-white px-3 py-2 fw-semibold text-decoration-none">
+                                {{ tag.title }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- متادیتای مقاله (تصویر، نویسنده، تاریخ) -->
+            <div class="col-12 col-lg-6">
+                <article class="bg-white p-4 rounded shadow-sm h-100">
+                    <div class="ratio ratio-16x9 mb-3 rounded overflow-hidden">
+                        <img 
+                            src="{{ article.image.url }}" 
+                            alt="{{ article.title }}" 
+                            class="w-100 h-100 object-fit-cover"
+                        >
+                    </div>
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
+                        <address class="d-flex align-items-center text-muted mb-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="me-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                            </svg>
+                            {{ article.author }}
+                        </address>
+                        <time class="d-flex align-items-center text-muted">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="me-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                            </svg>
+                            {{ article.updated_at|date:"d M Y" }}
+                        </time>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        <main class="bg-white rounded shadow p-4">
+            {% for section in article.article.sections %}
+                <section class="mb-4">
+                    <h2 id="article-text" style="color: #149ddd;" class="h4 fw-semibold border-bottom pb-2 mb-3">
+                        {{ section.subtitle }}
+                    </h2>
+                    <div id="article-text" class="text-muted mb-3">
+                        {{ section.body | safe }}
+                    </div>
+                </section>
+            {% endfor %}
+        </main>
+    </div>
+</section>
+{% endblock content %}

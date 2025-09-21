@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    Blog
+{% endblock title %}
+    
+
+{% block content %}
+  <!-- Blog Section Start -->
+<section id="blog" class="bg-slate-100 pt-36 pb-32 dark:bg-dark">
+    <div class="container">
+        <div class="w-full px-4">
+            <div class="mx-auto mb-16 max-w-xl text-center">
+                <h4 class="mb-2 text-lg font-semibold text-primary">All Articles in my Blog about '{{ tag }}'</h4>
+                <p class="text-md font-medium text-secondary md:text-lg">You can read my articles about IT and Programming.</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <!-- Post preview-->
+                        {% for article in page_objects %}
+                            <div class="post-preview">
+                                <a href="{% url 'blog:article_detail' article.id %}"><h2 class="post-title">{{ article.title }}</h2></a><br>
+                                <h5>{{ article.description | truncatewords:10 }}</h5><br>
+                                <p class="post-meta">
+                                    Posted by
+                                    <a href="#">{{ article.author }}</a><br>
+                                    on {{ article.created_at | date:"M d Y" }}
+                                </p>
+                            </div>
+                            <hr class="my-4" />
+                        {% endfor %}
+                        
+                        <div class="paginator d-flex justify-content-between">
+                            
+                            {% if page_objects.has_previous %}
+                                <div class="d-flex justify-content-start mb-2">
+                                    <a class="btn btn-primary text-uppercase" href="?page={{ page_objects.previous_page_number }}">
+                                        <i class="bi bi-arrow-left"></i> 
+                                        Newer Posts
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            <span class="justify-content mb-2">
+                                {{ page_objects.number }} from {{ page_objects.paginator.num_pages }}
+                            </span>
+
+                            {% if page_objects.has_next %}
+                                <div class="d-flex justify-content-end mb-2">
+                                    <a class="btn btn-primary text-uppercase" href="?page={{ page_objects.next_page_number }}">
+                                        Older Posts 
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

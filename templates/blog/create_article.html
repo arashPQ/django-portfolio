@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} 
+    Create new article
+{% endblock title %}
+
+{% block content %}
+
+<section class="bg-light pt-5 pb-5"> 
+    <div class="container"> 
+        <h1 class="text-dark fs-4 fw-bold mb-4">مقاله جدید</h1>
+
+        <form action="{% url 'blog:create_article' %}" method="post" id="articleForm" class="bg-white rounded shadow p-4" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- عنوان اصلی -->
+            <div class="mb-3">
+                <label class="form-label fw-medium">عنوان مقاله</label>
+                <input 
+                    type="text" 
+                    name="title" 
+                    placeholder="مثال: زبان برنامه‌نویسی پایتون" 
+                    required
+                    class="form-control"
+                >
+            </div>
+            
+            <!-- توضیحات -->
+            <div class="mb-3">
+                <label class="form-label fw-medium">توضیحات کوتاه</label>
+                <textarea 
+                    name="description" 
+                    placeholder="خلاصه‌ای از مقاله..."
+                    class="form-control"
+                ></textarea>
+            </div>
+
+            <!-- ورودی تصویر -->
+            <div class="mb-3">
+                <label class="form-label fw-medium">تصویر</label>
+                <div class="input-group">
+                    {{ form.image }}
+                </div>
+            </div>
+
+            {% comment %} Author {% endcomment %}
+            <div class="mb-3">
+                <label class="form-label fw-medium">نویسنده</label>
+                <select 
+                    name="author"
+                    class="form-select"
+                    multiple
+                >
+                    {% for author in authors %}
+                        <option value="{{ author.id }}">{{ author.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% comment %} Tags {% endcomment %}
+            <div class="mb-3">
+                <label class="form-label fw-medium">تگ‌ها</label>
+                <select 
+                    name="tags" 
+                    multiple 
+                    class="form-select"
+                >
+                    {% for tag in tags %}
+                        <option value="{{ tag.id }}">{{ tag.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <!-- چک‌باکس انتشار با اعتبارسنجی -->
+            <div class="form-check mb-3">
+                <input 
+                    type="checkbox" 
+                    name="published" 
+                    id="published"
+                    class="form-check-input"
+                    onchange="validateCheckbox(this)"
+                >
+                <label for="published" class="form-check-label">انتشار عمومی مقاله</label>
+                <div id="checkbox-error" class="text-danger small d-none">برای انتشار عمومی باید این گزینه را انتخاب کنید!</div>
+            </div>
+            
+            <!-- بخش‌های دینامیک -->
+            <div class="mb-3">
+                <label class="form-label fw-medium">بخش‌های مقاله</label>
+                <div id="sections" class="d-grid gap-3">
+                    <div class="section bg-light p-3 rounded border">
+                        <input 
+                            type="text" 
+                            name="subtitle[]" 
+                            placeholder="زیرعنوان (مثال: مقدمه)" 
+                            required
+                            class="form-control mb-2"
+                        >
+                        <textarea 
+                            name="body[]" 
+                            placeholder="بدنهٔ محتوا..." 
+                            required
+                            class="form-control"
+                            rows="4"
+                        ></textarea>
+                    </div>
+                </div>
+                
+                <button 
+                    type="button" 
+                    onclick="addSection()"
+                    class="btn btn-success mt-3"
+                >
+                    + افزودن بخش جدید
+                </button>
+            </div>
+            
+            <!-- دکمه ارسال -->
+            <button 
+                type="submit"
+                class="btn btn-primary rounded-pill px-4"
+            >
+                ذخیره مقاله
+            </button>
+        </form>
+    </div>
+    <script>
+        function addSection() {
+            const sectionsDiv = document.getElementById('sections');
+            const newSection = document.createElement('div');
+            newSection.className = 'section bg-light p-3 rounded border position-relative animate-fade-in';
+            newSection.innerHTML = `
+                <input 
+                    type="text" 
+                    name="subtitle[]" 
+                    placeholder="زیرعنوان" 
+                    required
+                    class="form-control mb-2"
+                >
+                <textarea 
+                    name="body[]" 
+                    placeholder="بدنهٔ محتوا..." 
+                    required
+                    class="form-control"
+                    rows="4"
+                ></textarea>
+                <button 
+                    type="button" 
+                    onclick="removeSection(this)"
+                    class="btn btn-danger mt-2"
+                >
+                    - حذف بخش
+                </button>
+            `;
+            sectionsDiv.appendChild(newSection);
+            newSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        function removeSection(button) {
+            const section = button.closest('.section');
+            section.remove();
+        }
+
+        // نمایش نام فایل تصویر پس از آپلود
+        document.querySelector('input[name="image"]').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'هیچ فایلی انتخاب نشد';
+            const uploadLabel = this.closest('label');
+            if(uploadLabel){
+                uploadLabel.innerHTML = `
+                    <div class="p-2 text-center">
+                        <i class="bi bi-image text-primary fs-3"></i>
+                        <p class="mt-1 small text-muted text-truncate">${fileName}</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</section>
+
+  <!-- Footer End -->
+  
+{% endblock content %}

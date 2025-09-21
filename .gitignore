@@ -19,7 +19,7 @@ lib64/
 parts/
 sdist/
 static/
-templates/
+
 media/
 var/
 wheels/
