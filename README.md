@@ -1,4 +1,5 @@
 <h3>portfolio website with django</h3>
+<p>I focused all my attention on the backend of the project :)))</p>
 
 <h5>Usage</h5>
    
