@@ -19,7 +19,11 @@ python manage.py migrate
 
 python manage.py runserver
 ```
-
+<hr>
+<h4>Screenshots</h4>
+<p>You can view the different project pages in the "Project Overview" folder.</p>
+<img src="Project%20Overview/2.png" style="width:100%;">
+<hr>
 <h4>Static files</h4>
 for static files i used IPortfolio
 from <a href="https://bootstrapmade.com/">BootstrapMade</a>
