@@ -9,8 +9,8 @@ from blog.models import Article, Author, Tags, SubTitle
 from blog.forms import ArticleForm
 from developer.models import Developer
 
-developer = Developer.objects.get(username='arashPQ')
-
+def get_developer():
+    return Developer.objects.filter(username='arashPQ').first()
 
 def superuser_required(func):
     decorator = user_passes_test(lambda u:u.is_superuser)
@@ -65,7 +65,7 @@ def create_article(request):
         'form': form,
         'tags': tags,
         'authors': authors,
-        'developer': developer,
+        'developer': get_developer(),
     }
     return render(request, 'blog/create_article.html', data)
 
@@ -77,7 +77,7 @@ def article_list(request):
     page_objects = paginator.get_page(page_number)
     data = {
         'articles': articles,
-        'developer': developer,
+        'developer': get_developer(),
         'page_objects': page_objects,
     }
     return render(request, 'blog/index.html', data)
@@ -88,7 +88,7 @@ def article_detail(request, pk=None):
     subtitles = SubTitle.objects.filter(article=article)
     tags = article.tag.all()
     data = {
-        'developer': developer,
+        'developer': get_developer(),
         'article': article,
         'subtitles': subtitles,
         'tags': tags
@@ -107,7 +107,7 @@ def SearchByTag(request, tt):
         return redirect('blog:article_list')
     else:
         return render(request, 'blog/bytag.html', {
-            'developer': developer,
+            'developer': get_developer(),
             'articles': articles,
             'page_objects': page_objects,
             'tag': tt,
