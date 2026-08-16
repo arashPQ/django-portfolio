@@ -10,7 +10,7 @@ class TestAuthor:
         author = Author.objects.create(
             first_name="Arash",
             last_name="Paghe",
-            email="Aarsh@example.com",
+            email="Arash@example.com",
             phone="09123456789",
         )
 
@@ -18,9 +18,9 @@ class TestAuthor:
 
     def test_author_name_property(self):
         author = Author.objects.create(
-            first_name="Aarsh",
+            first_name="Arash",
             last_name="Paghe",
-            email="Aarsh@example.com",
+            email="Arash@example.com",
             phone="09123456789",
         )
 
@@ -66,9 +66,9 @@ class TestArticle:
 
     def test_article_str(self):
         author = Author.objects.create(
-            first_name="Aarsh",
+            first_name="Arash",
             last_name="Paghe",
-            email="Aarsh@example.com",
+            email="Arash@example.com",
             phone="09123456789",
         )
 
@@ -83,9 +83,9 @@ class TestArticle:
 
     def test_article_default_published_is_false(self):
         author = Author.objects.create(
-            first_name="Aarsh",
+            first_name="Arash",
             last_name="Paghe",
-            email="Aarsh@example.com",
+            email="Arash@example.com",
             phone="09123456789",
         )
 
@@ -100,9 +100,9 @@ class TestArticle:
 
     def test_article_can_have_tags(self):
         author = Author.objects.create(
-            first_name="Aarsh",
+            first_name="Arash",
             last_name="Paghe",
-            email="Aarsh@example.com",
+            email="Arash@example.com",
             phone="09123456789",
         )
 
@@ -129,9 +129,9 @@ class TestSubTitle:
 
     def test_subtitle_str(self):
         author = Author.objects.create(
-            first_name="Aarsh",
+            first_name="Arash",
             last_name="Paghe",
-            email="Aarsh@example.com",
+            email="Arash@example.com",
             phone="09123456789",
         )
 

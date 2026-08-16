@@ -10,9 +10,9 @@ from developer.models import Developer
 @pytest.fixture
 def author(db):
     return Author.objects.create(
-        first_name="Aarsh",
+        first_name="Arash",
         last_name="Paghe",
-        email="Aarsh@example.com",
+        email="Arash@example.com",
         phone="09123456789",
     )
 
